@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy New Year Anamika 💖</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: radial-gradient(circle at top, #ff9a9e, #fad0c4, #a18cd1);
+  overflow: hidden;
+  color: white;
+}
+
+/* ENTRY SCREEN */
+#entry {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+#entry h1 {
+  font-size: 3rem;
+  animation: glow 2s infinite alternate;
+}
+
+#entry p {
+  margin-top: 15px;
+  opacity: 0.9;
+}
+
+/* MAIN */
+.container {
+  height: 100vh;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem;
+  animation: glow 2s infinite alternate;
+}
+
+h2 {
+  margin-top: 10px;
+}
+
+.name {
+  color: #ffd6ff;
+  text-shadow: 0 0 20px pink;
+}
+
+/* COUNTDOWN */
+.countdown {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.time-box {
+  background: rgba(255,255,255,0.25);
+  padding: 15px 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+
+.time-box span {
+  font-size: 2rem;
+}
+
+/* SPARKLES */
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: float 8s linear infinite;
+}
+
+/* FIREWORKS */
+.firework {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  animation: explode 1.5s ease-out forwards;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px white, 0 0 30px hotpink; }
+  to { text-shadow: 0 0 25px white, 0 0 60px deeppink; }
+}
+
+@keyframes float {
+  from { transform: translateY(110vh) scale(0); opacity: 1; }
+  to { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+@keyframes explode {
+  to {
+    transform: translate(var(--x), var(--y));
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="entry">
+  <h1>Tap to Enter 💖</h1>
+  <p>For Anamika ✨</p>
+</div>
+
+<div class="container" id="main">
+  <h1>🎆 Happy New Year 🎆</h1>
+  <h2>Dear <span class="name">Anamika</span> 💕</h2>
+
+  <div class="countdown">
+    <div class="time-box"><span id="days">0</span><div>Days</div></div>
+    <div class="time-box"><span id="hours">0</span><div>Hours</div></div>
+    <div class="time-box"><span id="minutes">0</span><div>Minutes</div></div>
+    <div class="time-box"><span id="seconds">0</span><div>Seconds</div></div>
+  </div>
+</div>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_8b5d2f7c99.mp3">
+</audio>
+
+<script>
+const entry = document.getElementById("entry");
+const main = document.getElementById("main");
+const music = document.getElementById("music");
+
+entry.onclick = () => {
+  entry.style.display = "none";
+  main.style.display = "flex";
+  music.play();
+  fireworks();
+};
+
+const newYear = new Date("January 1, 2026 00:00:00").getTime();
+setInterval(() => {
+  const now = new Date().getTime();
+  const d = newYear - now;
+  days.innerText = Math.max(0, Math.floor(d / 86400000));
+  hours.innerText = Math.max(0, Math.floor(d / 3600000) % 24);
+  minutes.innerText = Math.max(0, Math.floor(d / 60000) % 60);
+  seconds.innerText = Math.max(0, Math.floor(d / 1000) % 60);
+}, 1000);
+
+// Sparkles
+setInterval(() => {
+  const s = document.createElement("div");
+  s.className = "sparkle";
+  s.style.left = Math.random() * 100 + "vw";
+  s.style.background = `hsl(${Math.random()*360},100%,80%)`;
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 8000);
+}, 300);
+
+// Fireworks
+function fireworks() {
+  setInterval(() => {
+    const x = Math.random() * innerWidth;
+    const y = Math.random() * innerHeight / 2;
+    for (let i = 0; i < 20; i++) {
+      const f = document.createElement("div");
+      f.className = "firework";
+      f.style.left = x + "px";
+      f.style.top = y + "px";
+      f.style.background = `hsl(${Math.random()*360},100%,60%)`;
+      f.style.setProperty("--x", `${Math.random()*200-100}px`);
+      f.style.setProperty("--y", `${Math.random()*200-100}px`);
+      document.body.appendChild(f);
+      setTimeout(() => f.remove(), 1500);
+    }
+  }, 1200);
+}
+</script>
+
+</body>
+</html>
